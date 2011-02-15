@@ -1,5 +1,4 @@
 module FacebookShare
-
   INIT_PARAMS = %w(status cookie xfbml)
   REMOVE_PARAMS = %w(app_id selector status cookie xfbml locale)
 
@@ -8,8 +7,13 @@ module FacebookShare
   end
 
   def default_facebook_share_options
-    {:app_id => "0", :selector => ".fb_share", :url => request.url, :locale => "en_US", :display => "popup"}
-    #.merge(FacebookShare.default_facebook_share_options || {})
+    {
+      :app_id => "0",
+      :selector => ".fb_share",
+      :url => request.url,
+      :locale => "en_US",
+      :display => "popup"
+    }.merge(FacebookShare.default_facebook_share_options || {})
   end
 
   def facebook_share_once(options = {})
@@ -51,13 +55,14 @@ JS
     params = build_params options, true
     html_safe_string("FB.init({appId:\"#{options[:app_id]}\"#{params}});")
   end
-	
+
   def build_params(options, for_init = false)
     script = ""
     options.each do |key, value|
+      # if it's for init script, include only status, cookie and xfbml
+      # if it's for stream.publish, include all except for initial
       param_check = ( for_init ) ? INIT_PARAMS.include?(key) : !(REMOVE_PARAMS.include?(key))
-                                   # if it's for init script, include only status, cookie and xfbml
-                                                              # if it's for stream.publish, include all except for initial
+
       if value && param_check
         value_sanitized = value.gsub(/"/, '\"')
         script << ", #{key}: \"#{value_sanitized}\""
