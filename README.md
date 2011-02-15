@@ -1,22 +1,48 @@
 # Facebook Share
 
-This gem will add an easy-to-use Facebook Share button feature to your Rails project.
+This gem will add an easy-to-use Facebook Share button feature to your Rails project. This gem does not take care of authentication or authorization. It's only purpose is to bind Facebook Share button to anything you want.
+
+Any public method will return just JavaScript code and nothing else.
 
 ## How To Install
 
-This gem relies on jQuery, be sure to have it installed in your project. This gem does not depend on jquery-rails gem, because some projects use jQuery without it.
+This gem relies on jQuery, be sure to have it installed in your project. It does not depend on jquery-rails gem, because some projects use jQuery without it.
 
     gem install facebook_share
 
-then add 
+## Code changes
 
-    include FacebookShare
+If you don't have a Facebook Application for your project yet, [create one](http://www.facebook.com/developers/createapp.php).
 
-at the top of your ApplicationHelper
+Then add this to your ApplicationHelper
 
-## Examples
+    module ApplicationHelper
+      include FacebookShare
 
-To be documented
+      FacebookShare.default_facebook_share_options = {
+        :app_id => "YOUR_APP_ID",
+        :status => false,
+        :cookie => false,
+        :xfbml => false,
+
+        :selector => '.fb_share',
+        :locale => "en_US"
+      }
+    end
+
+You can ommit *app_id* parameter, if you already have a Facebook Application initialized in your project.
+
+Be sure you have <div id="fb-root"></div> in your application layout before you load the Facebook Connect JS
+
+Default facebook Share options can be changed with the above code snippet
+* *appid* - your Facebook application ID that will connect your site to Facebook.
+* *status*. *cookie* and *xfbml* - as described at [FB.init JS SDK](http://developers.facebook.com/docs/reference/javascript/fb.init/)
+
+* *locale* - Facebook locale code representations, ie. en_US, de_DE, pl_PL, etc. The full list of Facebook supported languages is available in http://www.facebook.com/translations/FacebookLocales.xml or at [Facebook Developer Wiki](http://fbdevwiki.com/wiki/Locales)
+
+
+## Usage
+
 
 ## Note on Patches/Pull Requests
 
@@ -29,7 +55,7 @@ To be documented
 
 ## Copyright
 
-Copyright (c) 2011 Mike Połtyn.
+Copyright (c) 2011 Mike Połtyn. Originally build as part of work at [Railslove](http://railslove.com).
 
 ## License
 
