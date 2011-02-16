@@ -4,7 +4,7 @@ This gem will add an easy-to-use Facebook Share button feature to your Rails pro
 
 Any public method will return just JavaScript code and nothing else.
 
-## How To Install
+## How to install
 
 This gem relies on jQuery, be sure to have it installed in your project. It does not depend on jquery-rails gem, because some projects use jQuery without it.
 
@@ -35,16 +35,27 @@ You can ommit *app_id* parameter, if you already have a Facebook Application ini
 Be sure you have <div id="fb-root"></div> in your application layout before you load the Facebook Connect JS
 
 Default facebook Share options can be changed with the above code snippet
-* *appid* - your Facebook application ID that will connect your site to Facebook.
+
+* *appid* - your Facebook application ID that will connect your site to Facebook
 * *status*. *cookie* and *xfbml* - as described at [FB.init JS SDK](http://developers.facebook.com/docs/reference/javascript/fb.init/)
-
 * *locale* - Facebook locale code representations, ie. en_US, de_DE, pl_PL, etc. The full list of Facebook supported languages is available in http://www.facebook.com/translations/FacebookLocales.xml or at [Facebook Developer Wiki](http://fbdevwiki.com/wiki/Locales)
-
+* *selector* - a selector to target Facebook share binding, ".fb_share" by default
+* any other parameter will be passed to Facebook's **[FB.ui](http://developers.facebook.com/docs/reference/javascript/fb.ui/)** function, so you can use whichever parameters you need, except for *method*, which defaults always to *publish.stream*
 
 ## Usage
 
+The simplest usage (given you specified your project's Facebook Application ID) is as follows:
 
-## Note on Patches/Pull Requests
+    <%= link_to 'Share on Facebook', '#', :class => "fb_share"  %>
+    <%= facebook_share_once %>
+
+That will produce a link "Share on Facebook" with a class of "fb_share" and a corresponding JavaScript script tags initializing Facebook app and sharing method bind to click on that link. By default gem passes ".fb_share" selector to jQuery.
+
+## Todo
+
+* add tests
+
+## Note on patches/pull requests
 
 * Fork the project.
 * Create a feature branch

@@ -10,7 +10,7 @@ module FacebookShare
     {
       :app_id => "0",
       :selector => ".fb_share",
-      :url => request.url,
+      :link => request.url,
       :locale => "en_US",
       :display => "popup"
     }.merge(FacebookShare.default_facebook_share_options || {})
@@ -23,7 +23,7 @@ module FacebookShare
   def facebook_share(options = {})
     options = default_facebook_share_options.merge(options)
     script = <<-JS
-$("#{selector}").unbind("click.facebook_share").bind("click.facebook_share",function () {
+$("#{options[:selector]}").unbind("click.facebook_share").bind("click.facebook_share",function () {
   FB.ui({method: \'stream.publish\'#{build_params(options)}});
   return false;
 });
@@ -61,7 +61,7 @@ JS
     options.each do |key, value|
       # if it's for init script, include only status, cookie and xfbml
       # if it's for stream.publish, include all except for initial
-      param_check = ( for_init ) ? INIT_PARAMS.include?(key) : !(REMOVE_PARAMS.include?(key))
+      param_check = ( for_init ) ? FacebookShare::INIT_PARAMS.include?(key.to_s) : !(FacebookShare::REMOVE_PARAMS.include?(key.to_s))
 
       if value && param_check
         value_sanitized = value.gsub(/"/, '\"')
