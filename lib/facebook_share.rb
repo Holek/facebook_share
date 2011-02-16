@@ -47,7 +47,7 @@ JS
 
   def facebook_connect_js_tag(options = {})
     options = default_facebook_share_options.merge(options)
-    html_safe_string("<script type=\"text/javascript\" src=\"https://connect.facebook.net/#{default_facebook_share_options.merge(options)[:locale]}/all.js\"></script>")
+    html_safe_string("<script type=\"text/javascript\" src=\"https://connect.facebook.net/#{options[:locale]}/all.js\"></script>")
   end
 
   def facebook_init_script(options = {})
