@@ -64,7 +64,7 @@ JS
       param_check = ( for_init ) ? FacebookShare::INIT_PARAMS.include?(key.to_s) : !(FacebookShare::REMOVE_PARAMS.include?(key.to_s))
 
       if value && param_check
-        value_sanitized = value.gsub(/"/, '\"')
+        value_sanitized = value.to_s.gsub(/"/, '\"')
         script << ", #{key}: \"#{value_sanitized}\""
       end
     end
