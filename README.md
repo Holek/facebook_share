@@ -44,7 +44,7 @@ Be sure you have <div id="fb-root"></div> in your application layout before you 
 Default facebook Share options can be changed with the above code snippet. The options can be also passed to any public method, so you don't have to rely on defaults at any given time.
 
 * *framework* - choose a JavaScript framework to work with. For now just **:dojo** and **:jquery** are supported.
-** *jquery_function* - If you are using jQuery and mapped the jQuery function to a different variable, you can use that to pass a correct jQuery variable name, for example **$j**, **jQuery**, etc.
+* *jquery_function* - If you are using jQuery and mapped the jQuery function to a different variable, you can use that to pass a correct jQuery variable name, for example **$j**, **jQuery**, etc.
 * *app_id* - your Facebook application ID that will connect your site to Facebook - as described at [FB.init JS SDK](http://developers.facebook.com/docs/reference/javascript/fb.init/)
 * *status*, *cookie* and *xfbml* - as described at [FB.init JS SDK](http://developers.facebook.com/docs/reference/javascript/fb.init/)
 * *locale* - Facebook locale code representations, ie. en_US, de_DE, pl_PL, etc. The full list of Facebook supported languages is available in http://www.facebook.com/translations/FacebookLocales.xml or at [Facebook Developer Wiki](http://fbdevwiki.com/wiki/Locales). If your locale has both parts of the string the same, for example "de_DE", "pl_PL", since version 0.0.4 you can put just "de" or "pl", etc. The script **does not** check for validity of given locale.
