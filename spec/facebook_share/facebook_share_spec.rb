@@ -46,4 +46,27 @@ describe FacebookShare do
       it { should_not match(/selector: "/) }
     end
   end
+
+  describe "creating init script" do
+    context "when vanilla locale" do
+      subject { facebook_connect_js_tag( :locale => "en_US" ) }
+      
+      it { should match(/\/en_US\/all\.js/) }
+      it { should_not match(/\/en\/all\.js/) }
+    end
+
+    context "when shortened locale" do
+      subject { facebook_connect_js_tag( :locale => "en" ) }
+      
+      it { should match(/\/en_EN\/all\.js/) }
+      it { should_not match(/\/en\/all\.js/) }
+    end
+
+    context "when shortened locale 2" do
+      subject { facebook_connect_js_tag( :locale => "pl" ) }
+      
+      it { should match(/\/pl_PL\/all\.js/) }
+      it { should_not match(/\/pl\/all\.js/) }
+    end
+  end
 end

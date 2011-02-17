@@ -7,10 +7,16 @@ module FacebookShare
   end
 
   def default_facebook_share_options
+    # usually you might want to provide your own link anyway
+    if defined? request
+      link = request.url
+    else
+      link = "http://railslove.com"
+    end
     {
       :app_id => "0",
       :selector => ".fb_share",
-      :link => request.url,
+      :link => link,
       :locale => "en_US",
       :display => "popup"
     }.merge(FacebookShare.default_facebook_share_options || {})
@@ -47,6 +53,7 @@ JS
 
   def facebook_connect_js_tag(options = {})
     options = default_facebook_share_options.merge(options)
+    options[:locale] = "#{options[:locale]}_#{options[:locale].upcase}" if /^[a-z]{2}$/.match(options[:locale])
     html_safe_string("<script type=\"text/javascript\" src=\"https://connect.facebook.net/#{options[:locale]}/all.js\"></script>")
   end
 

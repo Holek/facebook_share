@@ -38,7 +38,7 @@ Default facebook Share options can be changed with the above code snippet
 
 * *appid* - your Facebook application ID that will connect your site to Facebook
 * *status*. *cookie* and *xfbml* - as described at [FB.init JS SDK](http://developers.facebook.com/docs/reference/javascript/fb.init/)
-* *locale* - Facebook locale code representations, ie. en_US, de_DE, pl_PL, etc. The full list of Facebook supported languages is available in http://www.facebook.com/translations/FacebookLocales.xml or at [Facebook Developer Wiki](http://fbdevwiki.com/wiki/Locales)
+* *locale* - Facebook locale code representations, ie. en_US, de_DE, pl_PL, etc. The full list of Facebook supported languages is available in http://www.facebook.com/translations/FacebookLocales.xml or at [Facebook Developer Wiki](http://fbdevwiki.com/wiki/Locales). If your locale has both parts of the string the same, for example "de_DE", "pl_PL", since version 0.0.4 you can put just "de" or "pl", etc. The script **does not** check for validity of given locale.
 * *selector* - a selector to target Facebook share binding, ".fb_share" by default
 * any other parameter will be passed to Facebook's **[FB.ui](http://developers.facebook.com/docs/reference/javascript/fb.ui/)** function, so you can use whichever parameters you need, except for *method*, which defaults always to *publish.stream*
 
@@ -50,6 +50,25 @@ The simplest usage (given you specified your project's Facebook Application ID) 
     <%= facebook_share_once %>
 
 That will produce a link "Share on Facebook" with a class of "fb_share" and a corresponding JavaScript script tags initializing Facebook app and sharing method bind to click on that link. By default gem passes ".fb_share" selector to jQuery.
+
+## Changelog
+
+v0.0.4
+
+* Locale guessing, if necessary
+
+v0.0.3
+
+* Added basic tests
+
+v0.0.2
+
+* Added global settings
+* Replaced *url* param with *link* to be consistent with Facebook API
+
+v0.0.1
+
+* First public release
 
 ## Note on patches/pull requests
 
