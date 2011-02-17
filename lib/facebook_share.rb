@@ -1,7 +1,7 @@
 module FacebookShare
   INIT_PARAMS = %w(status cookie xfbml)
-  REMOVE_PARAMS = %w(app_id selector status cookie xfbml locale)
-
+  REMOVE_PARAMS = %w(app_id selector status cookie xfbml locale framework jquery_function)
+  
   class << self
     attr_accessor :default_facebook_share_options
   end
@@ -15,6 +15,10 @@ module FacebookShare
     end
     {
       :app_id => "0",
+      
+      :framework => :jquery,
+      :jquery_function => "$",
+
       :selector => ".fb_share",
       :link => link,
       :locale => "en_US",
@@ -26,14 +30,31 @@ module FacebookShare
     facebook_script_tags options, facebook_share( options )
   end
 
+  def facebook_share_code(options = {})
+    options = default_facebook_share_options.merge(options)
+    <<-JS
+  FB.ui({method: 'stream.publish'#{build_params(options)}});
+  return false;
+JS
+  end
+
   def facebook_share(options = {})
     options = default_facebook_share_options.merge(options)
-    script = <<-JS
-$("#{options[:selector]}").unbind("click.facebook_share").bind("click.facebook_share",function () {
-  FB.ui({method: \'stream.publish\'#{build_params(options)}});
-  return false;
+    script = ""
+    case options[:framework]
+    when :dojo
+      script << <<-JS
+dojo.query("#{options[:selector]}").onclick(function(evt){
+#{facebook_share_code(options)}
 });
 JS
+    else # default to jquery
+      script << <<-JS
+#{options[:jquery_function]}("#{options[:selector]}").unbind("click.facebook_share").bind("click.facebook_share",function () {
+#{facebook_share_code(options)}
+});
+JS
+    end
     script
   end
 
@@ -63,23 +84,24 @@ JS
     html_safe_string("FB.init({appId:\"#{options[:app_id]}\"#{params}});")
   end
 
-  def build_params(options, for_init = false)
-    script = ""
-    options.each do |key, value|
-      # if it's for init script, include only status, cookie and xfbml
-      # if it's for stream.publish, include all except for initial
-      param_check = ( for_init ) ? FacebookShare::INIT_PARAMS.include?(key.to_s) : !(FacebookShare::REMOVE_PARAMS.include?(key.to_s))
+  private
+    def build_params(options, for_init = false)
+      script = ""
+      options.each do |key, value|
+        # if it's for init script, include only status, cookie and xfbml
+        # if it's for stream.publish, include all except for initial
+        param_check = ( for_init ) ? FacebookShare::INIT_PARAMS.include?(key.to_s) : !(FacebookShare::REMOVE_PARAMS.include?(key.to_s))
 
-      if value && param_check
-        value_sanitized = value.to_s.gsub(/"/, '\"')
-        script << ", #{key}: \"#{value_sanitized}\""
+        if value && param_check
+          value_sanitized = value.to_s.gsub(/"/, '\"')
+          script << ", #{key}: \"#{value_sanitized}\""
+        end
       end
+      script
     end
-    script
-  end
 
-  def html_safe_string(str)
-    @use_html_safe ||= "".respond_to?(:html_safe)
-    @use_html_safe ? str.html_safe : str
-  end
+    def html_safe_string(str)
+      @use_html_safe ||= "".respond_to?(:html_safe)
+      @use_html_safe ? str.html_safe : str
+    end
 end
