@@ -44,7 +44,9 @@ JS
     case options[:framework]
     when :dojo
       script << <<-JS
-dojo.query("#{options[:selector]}").onclick(function(evt){
+if (typeof ___facebook_share_evt != "undefined") dojo.disconnect(___facebook_share_evt);
+var ___facebook_share_obj = dojo.query("#{options[:selector]}")
+  , ___facebook_share_evt = dojo.connect(___facebook_share_obj, 'onclick', null, function(evt) {
 #{facebook_share_code(options)}
 });
 JS
