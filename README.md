@@ -63,6 +63,8 @@ The simplest usage (given you specified your project's Facebook Application ID) 
 
 That will produce a link "Share on Facebook" with a class of "fb_share" and a corresponding JavaScript script tags initializing Facebook app and sharing method bind to click on that link. By default gem passes ".fb_share" selector to the Javascript framework of your choice.
 
+You can find more usage examples at [Railslove blogpost](http://railslove.com/weblog/2011/02/22/introducing-simple-facebook-share-gem/) about this gem.
+
 ## Changelog
 
 v0.0.5
