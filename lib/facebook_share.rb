@@ -92,11 +92,24 @@ JS
       options.each do |key, value|
         # if it's for init script, include only status, cookie and xfbml
         # if it's for stream.publish, include all except for initial
-        param_check = ( for_init ) ? FacebookShare::INIT_PARAMS.include?(key.to_s) : !(FacebookShare::REMOVE_PARAMS.include?(key.to_s))
+        should_add_param = ( for_init ) ? FacebookShare::INIT_PARAMS.include?(key.to_s) : !(FacebookShare::REMOVE_PARAMS.include?(key.to_s))
+        
+        if key.to_s !~ /_js$/ and options[(key.to_s + "_js").to_sym]
+          should_add_param = false
+        end
 
-        if value && param_check
-          value_sanitized = value.to_s.gsub(/"/, '\"')
-          script << ", #{key}: \"#{value_sanitized}\""
+        if value && should_add_param
+          inserted_key = key.to_s
+          inserted_value = value
+          
+          if inserted_key =~ /_js$/
+            inserted_key = inserted_key[0, inserted_key.length - 3]
+          else
+            value_sanitized = inserted_value.to_s.gsub(/"/, '\"')
+            inserted_value = %Q("#{value_sanitized}")
+          end
+          
+          script << %Q(, #{inserted_key}: #{inserted_value})
         end
       end
       script
