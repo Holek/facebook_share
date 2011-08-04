@@ -42,7 +42,9 @@ Global configuration (config/initializers/facebook_share.rb ):
 
 You can ommit *app_id* parameter, if you already have a Facebook Application initialized in your project.
 
-Be sure you have <div id="fb-root"></div> in your application layout before you load the Facebook Connect JS
+Be sure you have
+    <div id="fb-root"></div>
+in your application layout before you load the Facebook Connect JS
 
 Default facebook Share options can be changed with the above code snippet. The options can be also passed to any public method, so you don't have to rely on defaults at any given time.
 
