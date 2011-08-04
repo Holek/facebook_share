@@ -54,6 +54,8 @@ Default facebook Share options can be changed with the above code snippet. The o
 * *selector* - a selector to target Facebook share binding, ".fb_share" by default
 * any other parameter will be passed to Facebook's **[FB.ui](http://developers.facebook.com/docs/reference/javascript/fb.ui/)** function, so you can use whichever parameters you need, except for *method*, which defaults always to *publish.stream*
 
+*app_id*, *status*, *cookie*, *xfbml*, *locale*, *selector*, and the various FB.ui parameters also have \_js variants which insert Javascript to calculate the value at runtime.  These Javascript snippets must be expressions, not full statements.  If a \_js option is present, the non-\_js version of the option is ignored.
+
 ## Usage
 
 The simplest usage (given you specified your project's Facebook Application ID) is as follows:
