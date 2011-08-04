@@ -69,6 +69,10 @@ You can find more usage examples at [Railslove blogpost](http://railslove.com/we
 
 ## Changelog
 
+v0.0.6
+
+* [[Brent Royal-Gordon](https://github.com/brentdax)] - Added \_js keys
+
 v0.0.5
 
 * Added support for [Dojo framework](http://dojotoolkit.org/)
